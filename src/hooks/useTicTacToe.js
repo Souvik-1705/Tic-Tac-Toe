@@ -7,6 +7,8 @@ const useTicTacToe = () => {
     const [isXNext, setIsXNext] = useState(true);
     const [winner, setWinner] = useState(null);
     const [winningLine, setWinningLine] = useState(null);
+    const [xWins, setXWins] = useState(0);
+    const [oWins, setOWins] = useState(0);
 
     const winningPattern = [
         [0, 1, 2],
@@ -39,7 +41,14 @@ const useTicTacToe = () => {
         setBoard(newBoard);
 
         const gameWinner = calculateWinner(newBoard);
-        setWinner(gameWinner);
+        if (gameWinner) {
+            setWinner(gameWinner);
+            if (gameWinner === "X") {
+                setXWins((prev) => prev + 1);
+            } else {
+                setOWins((prev) => prev + 1);
+            }
+        }
 
         setIsXNext(!isXNext);
     };
@@ -57,7 +66,15 @@ const useTicTacToe = () => {
         setWinningLine(null);
     };
 
-    return { board, handleClick, getStatusMessage, resetGame, winningLine };
+    return { 
+        board, 
+        handleClick, 
+        getStatusMessage, 
+        resetGame, 
+        winningLine,
+        xWins,
+        oWins
+    };
 };
 
 export default useTicTacToe;
